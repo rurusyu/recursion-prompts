@@ -6,21 +6,52 @@
 // denoted by n!, is the product of all positive integers less than or equal to n.
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
-var factorial = function(n) {
+var factorial = function(n) {      
+    if(n<0){
+      return null;      
+    }else if(n===0){
+        return 1;
+    }else if(n>0){
+      return n * factorial(n-1);
+    }    
 };
 
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
-var sum = function(array) {
+var sum = function(array) {    
+
+  if(array.length ===0){
+    return 0;
+  }else if (array.length === 1) {
+    return array[0];
+  }else {
+    return array[0]+sum(array.slice(1));
+  }
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+  var result =[];  
+ 
+  if(array.length ===0){return 0;}
+
+  for(var i=0;i<array.length; i++){
+    if(!Array.isArray(array[i])){
+      result.push(array[i]);         
+    }else{
+      result = result.concat(arraySum(array[i]));
+    }
+  } 
+
+  return result.reduce(function(prev, curr,index){
+    return prev+curr;
+  });   
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+    return n % 2 ===0 ? true : false;
 };
 
 // 5. Sum all integers below a given integer.
@@ -149,6 +180,18 @@ var replaceKeysInObj = function(obj, oldKey, newKey) {
 // fibonacci(5); // [0,1,1,2,3,5]
 // Note: The 0 is not counted.
 var fibonacci = function(n) {
+  
+    if(n<=0){
+      return null;
+    }else if(n <2){        
+      return [0,1];        
+    }else {
+      var fiboArr = fibonacci(n-1);
+      fiboArr.push(fiboArr[fiboArr.length-1] + fiboArr[fiboArr.length-2]);  
+            
+      return fiboArr;
+    }    
+    
 };
 
 // 26. Return the Fibonacci number located at index n of the Fibonacci sequence.
@@ -157,6 +200,19 @@ var fibonacci = function(n) {
 // nthFibo(7); // 13
 // nthFibo(3); // 2
 var nthFibo = function(n) {
+  
+  if(n<0){
+    return null;
+  }else if(n===0){
+    return 0;  
+  }else if(n<2){
+    return 1;
+  }else{
+    return nthFibo(n-1) + nthFibo(n-2);
+  }
+
+  
+
 };
 
 // 27. Given an array of words, return a new array containing each word capitalized.
@@ -180,11 +236,44 @@ var capitalizeFirst = function(array) {
 // };
 // nestedEvenSum(obj1); // 10
 var nestedEvenSum = function(obj) {
+  var result=[]; 
+
+  for(var key in obj){
+    if(typeof obj[key] === 'number'){    
+      result.push(obj[key]);     
+    }else if(typeof obj[key] === 'string'){
+      delete obj[key];    
+    }else{
+     //한겹만 벗겨주면 됨.
+     for(var i in obj[key]){
+       if(typeof obj[key][i] === 'number'){
+         result.push(obj[key][i]);
+       }
+       nestedEvenSum(obj[key][i]);
+     }  
+      
+   }
+  }    
+  var sum = 0;
+  for(var i=0; i<result.length;i++){
+    sum = sum+result[i];
+  }
+return sum;
 };
 
 // 30. Flatten an array containing nested arrays.
 // flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
 var flatten = function(array) {
+  var result =[];
+
+  for(var i=0; i<array.length; i++){
+    if(!Array.isArray(array[i])){
+      result.push(array[i]);
+    }else{
+      result = result.concat(flatten(array[i]));
+    }
+  }
+  return result;
 };
 
 // 31. Given a string, return an object containing tallies of each letter.
