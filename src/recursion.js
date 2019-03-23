@@ -49,20 +49,57 @@ var arraySum = function(array) {
   });   
 };
 
-// 4. Check if a number is even.
+// 4. Check if a number is even. %사용금지
 var isEven = function(n) {
-    return n % 2 ===0 ? true : false;
+    if(n ===0){return true;}
+    if(n ===1 || n=== -1){return false}
+
+    return isEven(n>0 ? n-2 : n+2);
 };
 
-// 5. Sum all integers below a given integer.
+// 5. Sum all integers below a given integer. 마지막값 제외하고 합하기.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+    if(n===0){return 0;}
+  
+    n=n>0 ? n-1: n+1;
+    return n+sumBelow(n);
+
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
+ // 솔루션1.
+  if(y - x === 1 || y-x===0){
+    return [];
+  }
+
+  y=y>x ? y-1 : y+1;
+  return y === x ? [] : range(x,y).concat(y);
+
+  // //솔루션2 이건 가장 베이스로직.
+  // if(y - x === 1 || y-x===0){
+  //     return [];
+  //   }
+  // if(x<y){
+  //   if(y-x === 2){
+  //     return [x+1];
+  //   }else{
+  //     var list = range(x,y-1);
+  //     list.push(y-1);
+    
+  //   }
+  // }else if(x>y){
+  //   if(x-y === 2){
+  //     return [x-1];
+  //   }else{
+  //     var list = range(x-1,y);
+  //     list.push(x-1);
+  //   }
+  // }  
+  // return list;
 };
 
 // 7. Compute the exponent of a number.
@@ -94,6 +131,13 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+  var remainder = x % y;
+  //base case
+  if(!x/y){
+    return remainder;
+  }else{
+    return modulo(x,y);
+  }
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
